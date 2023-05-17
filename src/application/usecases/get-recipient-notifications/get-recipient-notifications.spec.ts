@@ -1,7 +1,6 @@
 import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository';
 import { GetRecipientNotifications } from './get-recipient-notifications';
 import { makeNotification } from '@test/factories/notification-factory';
-import { Content } from '@application/entities/content/content.entity';
 
 describe('Use Case | Get Recipient Notifications', () => {
   it('Should be able to count recipient notifications', async () => {
