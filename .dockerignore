@@ -1,0 +1,8 @@
+dist
+node_modules
+.env.example
+yarn.lock
+data
+.github
+.gitignore
+pnpm-lock.yaml
