@@ -1,6 +1,6 @@
-import { Notification } from '@application/entities/notification/notification.entity';
-import { Content } from '@application/entities/content/content.entity';
-import { Notification as NotificationModel } from '@prisma/client';
+import { Notification } from '@application/entities/notification/notification.entity'
+import { Content } from '@application/entities/content/content.entity'
+import { Notification as NotificationModel } from '@prisma/client'
 
 export class PrismaNotificationMapper {
   static toPrisma(notification: Notification) {
@@ -11,7 +11,7 @@ export class PrismaNotificationMapper {
       recipientId: notification.recipientId,
       readAt: notification.readAt,
       createdAt: notification.createdAt,
-    };
+    }
   }
 
   static toDomain(raw: NotificationModel): Notification {
@@ -25,6 +25,6 @@ export class PrismaNotificationMapper {
         readAt: raw.readAt,
       },
       raw.id,
-    );
+    )
   }
 }

@@ -1,13 +1,13 @@
-import { NotificationsRepository } from '@application/repositories/notifications-repository';
-import { Notification } from '@application/entities/notification/notification.entity';
-import { Injectable } from '@nestjs/common';
+import { NotificationsRepository } from '@application/repositories/notifications-repository'
+import { Notification } from '@application/entities/notification/notification.entity'
+import { Injectable } from '@nestjs/common'
 
 interface GetRecipientNotificationsRequest {
-  recipientId: string;
+  recipientId: string
 }
 
 export interface GetRecipientNotificationsResponse {
-  notifications: Notification[];
+  notifications: Notification[]
 }
 
 @Injectable()
@@ -17,13 +17,13 @@ export class GetRecipientNotifications {
   async execute(
     request: GetRecipientNotificationsRequest,
   ): Promise<GetRecipientNotificationsResponse> {
-    const { recipientId } = request;
+    const { recipientId } = request
 
     const notifications =
-      await this.notificationsRepository.findManyByRecipientId(recipientId);
+      await this.notificationsRepository.findManyByRecipientId(recipientId)
 
     return {
       notifications,
-    };
+    }
   }
 }

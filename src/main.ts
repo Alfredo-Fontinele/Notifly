@@ -1,17 +1,17 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common'
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
 
-const PORT = 3333;
+const PORT = process.env.PORT || 3333
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule)
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe())
 
   await app.listen(PORT, () => {
-    console.log(`\nServer is running in http://localhost:${PORT} 🚀🚀🚀\n`);
-  });
+    console.log(`\nServer is running in http://localhost:${PORT} 🚀🚀🚀\n`)
+  })
 }
 
-bootstrap();
+bootstrap()

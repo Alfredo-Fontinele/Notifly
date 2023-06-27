@@ -1,1 +1,1 @@
-export type StrictNullCheck<T> = null | undefined | T;
+export type StrictNullCheck<T> = null | undefined | T
