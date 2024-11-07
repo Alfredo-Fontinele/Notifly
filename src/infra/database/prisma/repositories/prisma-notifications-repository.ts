@@ -1,6 +1,11 @@
 import { Notification } from '@application/entities/notification/notification.entity'
-import { NotificationsRepository } from '@application/repositories/notifications-repository'
+import {
+  FindManyNotificationsRequest,
+  NotificationsRepository,
+} from '@application/repositories/notifications-repository'
+import { variables } from '@config/env/env-validation'
 import { Injectable } from '@nestjs/common'
+import { FindManyResponse } from 'src/@types/find-many-response'
 import { PrismaNotificationMapper } from '../mappers/prisma-notification-mapper'
 import { PrismaService } from '../prisma.service'
 
@@ -15,10 +20,34 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
     })
   }
 
-  async findMany(): Promise<Notification[]> {
-    const response = await this.prismaService.notification.findMany()
+  async findMany(
+    payload: FindManyNotificationsRequest,
+  ): Promise<FindManyResponse<Notification[]>> {
+    const { page, pageSize } = payload
+    const totalItems = await this.prismaService.notification.count()
+    const totalPages = Math.ceil(totalItems / pageSize)
 
-    return response.map(PrismaNotificationMapper.toDomain)
+    const response = await this.prismaService.notification.findMany({
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    })
+
+    const nextUrl =
+      page < totalPages
+        ? `${variables.APPLICATION_URL}?page=${page + 1}&pageSize=${pageSize}`
+        : null
+
+    const prevUrl =
+      page > 1
+        ? `${variables.APPLICATION_URL}?page=${page - 1}&pageSize=${pageSize}`
+        : null
+
+    return {
+      currentPage: page,
+      nextUrl,
+      prevUrl,
+      data: response.map(PrismaNotificationMapper.toDomain),
+    }
   }
 
   async findById(notificationId: string): Promise<Notification | null> {

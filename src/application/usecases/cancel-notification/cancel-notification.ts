@@ -1,6 +1,6 @@
 import { NotificationsRepository } from '@application/repositories/notifications-repository'
-import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
-import { Injectable } from '@nestjs/common'
+
+import { Injectable, NotFoundException } from '@nestjs/common'
 
 interface CancelNotificationRequest {
   notificationId: string
@@ -22,7 +22,7 @@ export class CancelNotification {
     )
 
     if (!notification) {
-      throw new NotificationNotFoundException()
+      throw new NotFoundException()
     }
 
     notification.cancel()

@@ -1,4 +1,4 @@
-import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
+import { NotFoundException } from '@nestjs/common'
 import { makeNotification } from '@test/factories/notification-factory'
 import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository'
 import { UnreadNotification } from './unread-notification'
@@ -30,6 +30,6 @@ describe('Use Case | Unread Notification', () => {
         await unreadNotification.execute({
           notificationId: 'fake-notification-id',
         }),
-    ).rejects.toThrow(NotificationNotFoundException)
+    ).rejects.toThrow(NotFoundException)
   })
 })

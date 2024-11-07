@@ -1,9 +1,13 @@
-import { DatabaseModule } from '@infra/database/database.module'
 import { HttpModule } from '@infra/http/http.module'
+import { CacheModule } from '@nestjs/cache-manager'
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
 
 @Module({
-  imports: [HttpModule, DatabaseModule, ConfigModule.forRoot()],
+  imports: [
+    CacheModule.register({
+      isGlobal: true,
+    }),
+    HttpModule,
+  ],
 })
 export class AppModule {}

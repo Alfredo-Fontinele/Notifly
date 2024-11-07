@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@application': '/src/application',
+      '@config': '/src/config',
       '@domain': '/src/domain',
       '@helpers': '/src/helpers',
       '@infra': '/src/infra',

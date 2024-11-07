@@ -1,5 +1,10 @@
 import { Notification } from '@application/entities/notification/notification.entity'
-import { NotificationsRepository } from '@application/repositories/notifications-repository'
+import {
+  FindManyNotificationsRequest,
+  NotificationsRepository,
+} from '@application/repositories/notifications-repository'
+import { variables } from '@config/env/env-validation'
+import { FindManyResponse } from 'src/@types/find-many-response'
 
 export class InMemoryNotificationsRepository
   implements NotificationsRepository
@@ -10,8 +15,34 @@ export class InMemoryNotificationsRepository
     this.notifications.push(notification)
   }
 
-  async findMany(): Promise<Notification[]> {
-    return this.notifications
+  async findMany(
+    payload: FindManyNotificationsRequest,
+  ): Promise<FindManyResponse<Notification[]>> {
+    const { page, pageSize } = payload
+
+    const paginatedItems = this.notifications.slice(
+      (page - 1) * pageSize,
+      page * pageSize,
+    )
+
+    const totalPages = Math.ceil(this.notifications.length / pageSize)
+
+    const nextUrl =
+      page < totalPages
+        ? `${variables.APPLICATION_URL}?page=${page + 1}&pageSize=${pageSize}`
+        : null
+
+    const prevUrl =
+      page > 1
+        ? `${variables.APPLICATION_URL}?page=${page - 1}&pageSize=${pageSize}`
+        : null
+
+    return {
+      currentPage: page,
+      nextUrl,
+      prevUrl,
+      data: paginatedItems,
+    }
   }
 
   async findById(notificationId: string): Promise<Notification | null> {

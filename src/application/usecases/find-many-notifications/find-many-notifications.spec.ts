@@ -26,10 +26,11 @@ describe('Use Case | Find Many Notifications', () => {
         }),
     )
 
-    const response = await findManyNotifications.execute()
+    const response = await findManyNotifications.execute({
+      page: 1,
+      pageSize: 2,
+    })
 
-    console.dir(response, { depth: null })
-
-    expect(response.length).toBe(notifications.length)
+    expect(response.data.length).toBe(2)
   })
 })

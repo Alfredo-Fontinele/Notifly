@@ -1,6 +1,6 @@
 import { NotificationsRepository } from '@application/repositories/notifications-repository'
-import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
-import { Injectable } from '@nestjs/common'
+
+import { Injectable, NotFoundException } from '@nestjs/common'
 
 interface ReadNotificationRequest {
   notificationId: string
@@ -22,7 +22,7 @@ export class ReadNotification {
     )
 
     if (!notification) {
-      throw new NotificationNotFoundException()
+      throw new NotFoundException()
     }
 
     notification.read()
