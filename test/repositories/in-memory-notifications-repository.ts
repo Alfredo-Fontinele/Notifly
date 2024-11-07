@@ -1,43 +1,47 @@
-import { NotificationsRepository } from '@application/repositories/notifications-repository';
-import { Notification } from '@application/entities/notification/notification.entity';
+import { Notification } from '@application/entities/notification/notification.entity'
+import { NotificationsRepository } from '@application/repositories/notifications-repository'
 
 export class InMemoryNotificationsRepository
   implements NotificationsRepository
 {
-  public notifications: Notification[] = [];
+  public notifications: Notification[] = []
 
   async create(notification: Notification): Promise<void> {
-    this.notifications.push(notification);
+    this.notifications.push(notification)
+  }
+
+  async findMany(): Promise<Notification[]> {
+    return this.notifications
   }
 
   async findById(notificationId: string): Promise<Notification | null> {
     const findNotificationById = this.notifications.find(
       (notification) => notification.id === notificationId,
-    );
+    )
     if (!findNotificationById) {
-      return null;
+      return null
     }
-    return findNotificationById;
+    return findNotificationById
   }
 
   async save(notification: Notification): Promise<void> {
     const notificationIndex = this.notifications.findIndex(
       (item) => item.id === notification.id,
-    );
+    )
     if (notificationIndex >= 0) {
-      this.notifications[notificationIndex] = notification;
+      this.notifications[notificationIndex] = notification
     }
   }
 
   async countManyByRecipientId(recipientId: string): Promise<number> {
     return this.notifications.filter(
-      (notification) => notification.recipientId === recipientId,
-    ).length;
+      (notification) => notification.props.recipientId === recipientId,
+    ).length
   }
 
   async findManyByRecipientId(recipientId: string): Promise<Notification[]> {
     return this.notifications.filter(
-      (notification) => notification.recipientId === recipientId,
-    );
+      (notification) => notification.props.recipientId === recipientId,
+    )
   }
 }

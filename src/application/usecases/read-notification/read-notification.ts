@@ -1,6 +1,6 @@
 import { NotificationsRepository } from '@application/repositories/notifications-repository'
+import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
 import { Injectable } from '@nestjs/common'
-import { NotificationNotFound } from '../errors/notification-not-found'
 
 interface ReadNotificationRequest {
   notificationId: string
@@ -16,13 +16,17 @@ export class ReadNotification {
     request: ReadNotificationRequest,
   ): Promise<ReadNotificationResponse> {
     const { notificationId } = request
+
     const notification = await this.notificationsRepository.findById(
       notificationId,
     )
+
     if (!notification) {
-      throw new NotificationNotFound()
+      throw new NotificationNotFoundException()
     }
+
     notification.read()
+
     await this.notificationsRepository.save(notification)
   }
 }

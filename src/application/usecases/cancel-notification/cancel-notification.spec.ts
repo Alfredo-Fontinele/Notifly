@@ -1,6 +1,6 @@
-import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository'
+import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
 import { makeNotification } from '@test/factories/notification-factory'
-import { NotificationNotFound } from '../errors/notification-not-found'
+import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository'
 import { CancelNotification } from './cancel-notification'
 
 describe('Use Case | Cancel Notification', () => {
@@ -16,7 +16,7 @@ describe('Use Case | Cancel Notification', () => {
       notificationId: notification.id,
     })
 
-    expect(notificationRepository.notifications[0].canceledAt).toEqual(
+    expect(notificationRepository.notifications[0].props.canceledAt).toEqual(
       expect.any(Date),
     )
   })
@@ -30,6 +30,6 @@ describe('Use Case | Cancel Notification', () => {
         await cancelNotification.execute({
           notificationId: 'fake-notification-id',
         }),
-    ).rejects.toThrow(NotificationNotFound)
+    ).rejects.toThrow(NotificationNotFoundException)
   })
 })

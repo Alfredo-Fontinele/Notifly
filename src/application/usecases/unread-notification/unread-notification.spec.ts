@@ -1,6 +1,6 @@
-import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository'
+import { NotificationNotFoundException } from '@helpers/exceptions/NotificationNotFoundException'
 import { makeNotification } from '@test/factories/notification-factory'
-import { NotificationNotFound } from '../errors/notification-not-found'
+import { InMemoryNotificationsRepository } from '@test/repositories/in-memory-notifications-repository'
 import { UnreadNotification } from './unread-notification'
 
 describe('Use Case | Unread Notification', () => {
@@ -18,7 +18,7 @@ describe('Use Case | Unread Notification', () => {
       notificationId: notification.id,
     })
 
-    expect(notificationRepository.notifications[0].readAt).toBeNull()
+    expect(notificationRepository.notifications[0].props.readAt).toBeNull()
   })
 
   it('Should not be able to cancel a non existing notification', () => {
@@ -30,6 +30,6 @@ describe('Use Case | Unread Notification', () => {
         await unreadNotification.execute({
           notificationId: 'fake-notification-id',
         }),
-    ).rejects.toThrow(NotificationNotFound)
+    ).rejects.toThrow(NotificationNotFoundException)
   })
 })

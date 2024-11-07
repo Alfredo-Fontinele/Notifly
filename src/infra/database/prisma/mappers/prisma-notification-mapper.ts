@@ -1,16 +1,16 @@
-import { Notification } from '@application/entities/notification/notification.entity'
 import { Content } from '@application/entities/content/content.entity'
+import { Notification } from '@application/entities/notification/notification.entity'
 import { Notification as NotificationModel } from '@prisma/client'
 
 export class PrismaNotificationMapper {
   static toPrisma(notification: Notification) {
     return {
       id: notification.id,
-      category: notification.category,
-      content: notification.content.value,
-      recipientId: notification.recipientId,
-      readAt: notification.readAt,
-      createdAt: notification.createdAt,
+      category: notification.props.category,
+      content: notification.props.content.value,
+      recipientId: notification.props.recipientId,
+      readAt: notification.props.readAt,
+      createdAt: notification.props.createdAt,
     }
   }
 

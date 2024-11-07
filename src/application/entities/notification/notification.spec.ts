@@ -1,6 +1,6 @@
-import { Notification } from './notification.entity'
-import { Content } from '../content/content.entity'
 import { randomUUID } from 'node:crypto'
+import { Content } from '../content/content.entity'
+import { Notification } from './notification.entity'
 
 describe('Entity Case | Notification', () => {
   it('should be able to create a notification', () => {
